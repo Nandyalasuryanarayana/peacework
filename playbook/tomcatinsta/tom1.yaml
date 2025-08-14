@@ -7,4 +7,12 @@
      ansible.builtin.apt:
       name: openjdk-17-jdk
       state: present
+   - name: create user tomcat
+     ansible.builtin.user:
+      name: tomcat
+      create_home: yes
+      home: /opt/tomcat
+      shell: /bin/false
+      
+
       
