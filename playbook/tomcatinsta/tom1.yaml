@@ -16,7 +16,7 @@
    - name: install tomcat
      ansible.builtin.get_url:
       url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.44/bin/apache-tomcat-10.1.44.tar.gz 
-      dest: tmp
+      dest: /tmp
    - name: directory to tomcat10
      ansible.builtin.file:
       path: /opt/tomcat10
@@ -30,6 +30,15 @@
       dest: /opt/tomcat10
       remote_src: yes
       extra_opts: [--strip-components=1]
+   - name: change ownership of a directory
+     ansible.builtin.file:
+      path: /opt/tomcat10
+      recurse: yes
+      state: directory
+      owner: tomcat10
+      group: tomcat10
+      
+
     
       
 
