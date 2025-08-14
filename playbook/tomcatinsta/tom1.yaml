@@ -20,8 +20,8 @@
    - name: directory to tomcat10
      ansible.builtin.file:
       path: /opt/tomcat10
-      group: tomcat
-      owner: tomcat
+      group: tomcat10
+      owner: tomcat10
       state: directory
       mode: 0750
    - name: untar tomcat application
