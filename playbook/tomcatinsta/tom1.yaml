@@ -20,13 +20,13 @@
    - name: directory to tomcat10
      ansible.builtin.file:
       path: /opt/tomcat10
-      group: tomcat10
-      owner: tomcat10
+      group: tomcat
+      owner: tomcat
       state: directory
       mode: 0750
    - name: untar tomcat application
      ansible.builtin.unarchive:
-      src: /tmp/apache-tomcat-10.1.25.tar.gz
+      src: /tmp/apache-tomcat-10.1.44.tar.gz
       dest: /opt/tomcat10
       remote_src: yes
       extra_opts: [--strip-components=1]
@@ -35,8 +35,8 @@
       path: /opt/tomcat10
       recurse: yes
       state: directory
-      owner: tomcat10
-      group: tomcat10
+      owner: tomcat
+      group: tomcat
       
 
     
