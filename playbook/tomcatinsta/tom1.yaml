@@ -1,0 +1,10 @@
+---
+- name: tomcat installation on ansible
+  become: yes
+  hosts: all
+  tasks: 
+   - name: install java upto date
+     ansible.builtin.apt:
+      name: openjdk-17-jdk
+      state: present
+      

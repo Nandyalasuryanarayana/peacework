@@ -1,0 +1,23 @@
+---
+- name: install apache2 and php
+  hosts: all
+  become: yes
+  tasks: 
+  - name: install apache2 and run
+    ansible.builtin.apt:
+      name: apache2
+      state: present
+
+  - name: Enable and start Apache2 daemon
+    ansible.builtin.systemd_service:
+      name: apache2
+      enabled: yes
+      state: started
+      
+  - name: Install php and Apache2 php module
+    ansible.builtin.apt:
+      name: 
+        - php
+        - libapache2-mod-php
+      state: present
+  

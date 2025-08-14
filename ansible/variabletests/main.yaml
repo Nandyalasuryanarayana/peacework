@@ -1,0 +1,25 @@
+---
+- name: writing to variables
+  become: yes
+  hosts: all
+  vars:
+   download_url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.44/bin/apache-tomcat-10.1.44.tar.gz
+  tasks: 
+   - name: about package manager
+     ansible.builtin.debug:
+      var : packagemanager
+   - name: download url
+     ansible.builtin.debug:
+      var : download_url
+   - name: variables
+     ansible.builtin.debug:
+      var : variable_1
+   - name: variabless
+     ansible.builtin.debug:
+      var : variable_2
+   - name: variablesss
+     ansible.builtin.debug:
+      var : variable_3
+   - name: variablessss
+     ansible.builtin.debug:
+      var : variable_4

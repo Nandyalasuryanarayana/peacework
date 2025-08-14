@@ -1,0 +1,5 @@
+java_v: openjdk-17-jdk
+user_name: tomcat
+default_shell: /bin/sh
+path_tom: /opt/tomcat
+url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.44/bin/apache-tomcat-10.1.44.tar.gz

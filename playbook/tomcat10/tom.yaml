@@ -1,0 +1,52 @@
+---
+- name: installation of Tomcat
+  become: true
+  hosts: all
+  tasks:
+    - name: install java 17 app
+      ansible.builtin.apt:
+        name: "{{ java_v }}"
+        state: present
+
+    - name: create user for installation
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        create_home: yes
+        home: "{{ path_tom }}"
+        shell: "{{ default_shell }}"
+        state: present
+
+    - name: untar application
+      ansible.builtin.unarchive:
+        src: "{{ url }}"
+        dest: "{{ path_tom }}"
+        remote_src: yes
+        extra_opts: [--strip-components=1]
+
+    - name: change permissions for file
+      ansible.builtin.file:
+        path: "{{ path_tom }}"
+        recurse: yes
+        group: "{{ user_name }}"
+        owner: "{{ user_name }}"
+        state: directory
+        mode: '0750'
+
+    - name: copy the tomcat service-file
+      ansible.builtin.copy:
+        src: tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+        mode: '0644'
+      become: yes
+
+    - name: reload systemd daemon and start tomcat service
+      ansible.builtin.systemd:
+        name: tomcat.service
+        daemon_reload: yes
+        state: started
+        enabled: yes
+      become: yes
+
+
+
+
