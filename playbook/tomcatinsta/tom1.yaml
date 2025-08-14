@@ -5,34 +5,34 @@
   tasks: 
    - name: install java upto date
      ansible.builtin.apt:
-      name: openjdk-17-jdk
+      name: "{{ java_v }}"
       state: present
    - name: create user tomcat
      ansible.builtin.user:
       name: tomcat
       create_home: yes
       home: /opt/tomcat
-      shell: /bin/false
+      shell: "{{ shellvar }}"
    - name: install tomcat
      ansible.builtin.get_url:
-      url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.44/bin/apache-tomcat-10.1.44.tar.gz 
+      url: "{{ httpsurl }}"
       dest: /tmp
    - name: directory to tomcat10
      ansible.builtin.file:
-      path: /opt/tomcat10
+      path: "{{ directory }}"
       group: tomcat
       owner: tomcat
       state: directory
       mode: 0750
    - name: untar tomcat application
      ansible.builtin.unarchive:
-      src: /tmp/apache-tomcat-10.1.44.tar.gz
-      dest: /opt/tomcat10
+      src: "{{ untarvar }}"
+      dest: "{{ directory }}"
       remote_src: yes
       extra_opts: [--strip-components=1]
    - name: change ownership of a directory
      ansible.builtin.file:
-      path: /opt/tomcat10
+      path: "{{ directory }}"
       recurse: yes
       state: directory
       owner: tomcat
