@@ -40,6 +40,7 @@
       state: directory
       owner: tomcat
       group: tomcat
+      mode: 0750
    - name: copy service file of tomcat10
      ansible.builtin.copy:
       src: tomcat.service
