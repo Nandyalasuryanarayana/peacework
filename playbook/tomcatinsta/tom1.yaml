@@ -37,10 +37,17 @@
       state: directory
       owner: tomcat
       group: tomcat
-      
+   - name: copy service file of tomcat10
+     ansible.builtin.copy:
+      src: tomcat.service
+      dest: /etc/systemd/system/tomcat.service
+      remote_src: no
+   - name: reload,restart daemon
+     ansible.builtin.systemd_service:
+      name: tomcat.service
+      daemon_reload: yes
+      state: restarted
 
-    
-      
 
 
 
