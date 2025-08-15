@@ -3,6 +3,9 @@
   become: yes
   hosts: all
   tasks: 
+   - name: for os update
+     ansible.builtin.apt:
+      update_cache: yes
    - name: install java upto date
      ansible.builtin.apt:
       name: "{{ java_v }}"
