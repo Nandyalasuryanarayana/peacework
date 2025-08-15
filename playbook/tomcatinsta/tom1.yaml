@@ -42,7 +42,7 @@
       group: tomcat
    - name: copy service file of tomcat10
      ansible.builtin.copy:
-      src: /files/tomcat.service
+      src: files/tomcat.service
       dest: /etc/systemd/system/tomcat.service
    - name: reload,restart daemon
      ansible.builtin.systemd_service:
