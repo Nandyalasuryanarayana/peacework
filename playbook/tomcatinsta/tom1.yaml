@@ -44,6 +44,9 @@
      ansible.builtin.copy:
       src: files/tomcat.service
       dest: /etc/systemd/system/tomcat.service
+      owner: root
+      group: root
+      mode: '0644'
    - name: reload,restart daemon
      ansible.builtin.systemd_service:
       name: tomcat.service
