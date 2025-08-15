@@ -43,11 +43,11 @@
       mode: 0750
    - name: copy service file of tomcat10
      ansible.builtin.copy:
-      src: tomcat.service
+      src: tomcat10.service
       dest: /etc/systemd/system/tomcat.service
    - name: reload,restart daemon
      ansible.builtin.systemd_service:
-      name: tomcat.service
+      name: tomcat10.service
       daemon_reload: yes
       state: started
       enabled : yes
