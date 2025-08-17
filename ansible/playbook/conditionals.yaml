@@ -29,3 +29,9 @@
       name: tree
       state: present
      when: ansible_facts["distribution"] == "Ubuntu"
+   - handlers:
+     name: print message
+     ansible.builtin.debug:
+      msg: tree is present
+     
+
