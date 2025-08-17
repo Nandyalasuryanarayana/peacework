@@ -2,63 +2,74 @@
 - name: tomcat installation on ansible
   become: yes
   hosts: all
-  tasks: 
-   - name: for os update
-     ansible.builtin.apt:
-      update_cache: yes
-   - name: install java upto date
-     ansible.builtin.apt:
-      name: "{{ java_v }}"
-      state: present
-   - name: create user tomcat
-     ansible.builtin.user:
-      name: tomcat
-      create_home: yes
-      home: /opt/tomcat
-      shell: "{{ shellvar }}"
-   - name: install tomcat
-     ansible.builtin.get_url:
-      url: "{{ httpsurl }}"
-      dest: /tmp
-   - name: directory to tomcat10
-     ansible.builtin.file:
-      path: "{{ directory }}"
-      group: tomcat
-      owner: tomcat
-      state: directory
-      mode: 0750
-   - name: storing the tomcat execution in stat
-     ansible.builtin.stat:
-      path: "{{ directory }}/bin/startup.sh"
-     register: tomcat_status
-   - name: untar tomcat application
-     ansible.builtin.unarchive:
-      src: "{{ untarvar }}"
-      dest: "{{ directory }}"
-      remote_src: yes
-      extra_opts: [--strip-components=1]
-     when: not tomcat_status.stat.exists
-     notify:
-       -change ownership of a directory
-       -copy service file of tomcat10
-     ansible.builtin.systemd_service:
-      name: tomcat10.service
-      daemon_reload: yes
-      state: started
-      enabled : yes
-  handlers: 
+  tasks:
+    - name: for os update
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: install java upto date
+      ansible.builtin.apt:
+        name: "{{ java_v }}"
+        state: present
+
+    - name: create user tomcat
+      ansible.builtin.user:
+        name: tomcat
+        create_home: yes
+        home: /opt/tomcat
+        shell: "{{ shellvar }}"
+
+    - name: install tomcat
+      ansible.builtin.get_url:
+        url: "{{ httpsurl }}"
+        dest: /tmp
+
+    - name: directory to tomcat10
+      ansible.builtin.file:
+        path: "{{ directory }}"
+        group: tomcat
+        owner: tomcat
+        state: directory
+        mode: 0750
+
+    - name: storing the tomcat execution in stat
+      ansible.builtin.stat:
+        path: "{{ directory }}/bin/startup.sh"
+      register: tomcat_status
+
+    - name: untar tomcat application
+      ansible.builtin.unarchive:
+        src: "{{ untarvar }}"
+        dest: "{{ directory }}"
+        remote_src: yes
+        extra_opts: [--strip-components=1]
+      when: not tomcat_status.stat.exists
+      notify:
+        - change ownership of a directory
+        - copy service file of tomcat10
+
+    - name: start and enable tomcat service
+      ansible.builtin.systemd:
+        name: tomcat10.service
+        daemon_reload: yes
+        state: started
+        enabled: yes
+
+  handlers:
     - name: change ownership of a directory
       ansible.builtin.file:
-       path: "{{ directory }}"
-       recurse: yes
-       state: directory
-       owner: tomcat
-       group: tomcat
-       mode: 0750
+        path: "{{ directory }}"
+        recurse: yes
+        state: directory
+        owner: tomcat
+        group: tomcat
+        mode: 0750
+
     - name: copy service file of tomcat10
       ansible.builtin.copy:
-       src: tomcat10.service
-       dest: /etc/systemd/system/tomcat10.service
+        src: tomcat10.service
+        dest: /etc/systemd/system/tomcat10.service
+
   
       
 
