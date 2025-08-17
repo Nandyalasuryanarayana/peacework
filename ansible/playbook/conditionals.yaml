@@ -17,10 +17,13 @@
      ansible.builtin.stat:
       path: /home/devops/test.txt
      register: file_status
-   - name: file exits 
+   - name: display contents of file 
      ansible.builtin.debug:
-      msg: contentsoffile
       var: file exits
+   - name: check file exits
+     ansible.builtin.debug:
+      msg: file is available
+     when: file_status.stat.exits
       
      
     
