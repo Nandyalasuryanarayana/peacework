@@ -3,32 +3,32 @@
   hosts: all
   become: yes
   tasks: 
-   - name: work on debian
-     ansible.builtin.debug:
-      msg: "This is a debian distribution"
-     when: ansible_facts["os_family"] == "Debian"
-   - name: work on specified version
-     ansible.builtin.debug:
-      msg: "if version is above 22"
-     when: 
-       - ansible_facts["distribution"] == "Ubuntu"
-       - ansible_facts["distribution_version"] | int > 22
-   - name: file contents storage
-     ansible.builtin.stat:
-      path: /home/devops/test.txt
-     register: file_status
-   - name: display contents of file 
-     ansible.builtin.debug:
-      var: file_status
-   - name: check file exits
-     ansible.builtin.debug:
-      msg: file is available
-     when: file_status.stat.exists
-   - name: install tree
-     ansible.builtin.apt:
-      name: tree
-      state: present
-     when: ansible_facts["distribution"] == "Ubuntu"
+    - name: work on debian
+      ansible.builtin.debug:
+       msg: "This is a debian distribution"
+      when: ansible_facts["os_family"] == "Debian"
+    - name: work on specified version
+      ansible.builtin.debug:
+       msg: "if version is above 22"
+      when: 
+        - ansible_facts["distribution"] == "Ubuntu"
+        - ansible_facts["distribution_version"] | int > 22
+    - name: file contents storage
+      ansible.builtin.stat:
+       path: /home/devops/test.txt
+       register: file_status
+    - name: display contents of file 
+      ansible.builtin.debug:
+       var: file_status
+    - name: check file exits
+      ansible.builtin.debug:
+       msg: file is available
+      when: file_status.stat.exists
+    - name: install tree
+      ansible.builtin.apt:
+       name: tree
+       state: present
+      when: ansible_facts["distribution"] == "Ubuntu"
   handlers:
      name: print message
      ansible.builtin.debug:
