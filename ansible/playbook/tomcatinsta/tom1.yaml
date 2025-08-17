@@ -27,30 +27,40 @@
       owner: tomcat
       state: directory
       mode: 0750
+   - name: storing the tomcat execution in stat
+     ansible.builtin.stat:
+      path: "{{ directory }}/bin/startup.sh"
+     register: tomcat_status
    - name: untar tomcat application
      ansible.builtin.unarchive:
       src: "{{ untarvar }}"
       dest: "{{ directory }}"
       remote_src: yes
       extra_opts: [--strip-components=1]
-   - name: change ownership of a directory
-     ansible.builtin.file:
-      path: "{{ directory }}"
-      recurse: yes
-      state: directory
-      owner: tomcat
-      group: tomcat
-      mode: 0750
-   - name: copy service file of tomcat10
-     ansible.builtin.copy:
-      src: tomcat10.service
-      dest: /etc/systemd/system/tomcat10.service
-   - name: reload,restart daemon
+     when: not tomcat_status.stat.exists
+     notify:
+       -change ownership of a directory
+       -copy service file of tomcat10
      ansible.builtin.systemd_service:
       name: tomcat10.service
       daemon_reload: yes
       state: started
       enabled : yes
+  handlers: 
+    - name: change ownership of a directory
+      ansible.builtin.file:
+       path: "{{ directory }}"
+       recurse: yes
+       state: directory
+       owner: tomcat
+       group: tomcat
+       mode: 0750
+    - name: copy service file of tomcat10
+      ansible.builtin.copy:
+       src: tomcat10.service
+       dest: /etc/systemd/system/tomcat10.service
+  
+      
 
 
 
