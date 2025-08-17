@@ -24,6 +24,8 @@
      ansible.builtin.debug:
       msg: file is available
      when: file_status.stat.exists
+   - name: install tree
+     ansible.builtin.apt:
+      name: tree
+      state: present
       
-     
-    
