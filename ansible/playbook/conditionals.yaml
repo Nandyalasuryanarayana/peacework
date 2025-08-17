@@ -1,0 +1,19 @@
+---
+- name: learningconditionals
+  hosts: all
+  become: sudo
+  tasks: 
+   - name: work on debian
+     ansible.builtin.debug:
+      msg: "This is a debian distribution"
+     when: ansible_facts["os_family"] == debian
+   - name: work on red_hat 
+     ansible.builtin.debug:
+      msg: "This is a red_hat distribution"
+     when: ansible_facts["os_family"] == red_hat
+   - name: see Version of ubuntu
+     ansible.builtin.debug:
+      msg: "if version is above 22"
+     when: ansible_facts["distribution"] == Ubuntu
+     when: ansible_facts["distribution_version"] | int <= 22
+    
