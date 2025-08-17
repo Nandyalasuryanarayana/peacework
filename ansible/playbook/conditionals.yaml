@@ -18,10 +18,9 @@
       path: /home/devops/test.txt
      register: file_status
    - name: file exits 
-     ansible.builtin.stat:
-      msg: file is exits
-      path: /home/devops/test.txt
-     register: file_status
-     when: file_status.stat.exits
+     ansible.builtin.debug:
+      msg: contentsoffile
+      var: file exits
+      
      
     
