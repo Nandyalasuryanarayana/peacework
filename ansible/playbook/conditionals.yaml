@@ -34,6 +34,8 @@
         name: tree
         state: present
       when: ansible_facts["distribution"] == "Ubuntu"
+      notify: 
+        - print message
 
   handlers:
     - name: print message
