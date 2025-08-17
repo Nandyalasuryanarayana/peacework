@@ -19,7 +19,7 @@
      register: file_status
    - name: display contents of file 
      ansible.builtin.debug:
-      var: file exits
+      var: file_status
    - name: check file exits
      ansible.builtin.debug:
       msg: file is available
