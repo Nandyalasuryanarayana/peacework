@@ -23,7 +23,7 @@
    - name: check file exits
      ansible.builtin.debug:
       msg: file is available
-     when: file_status.stat.exits
+     when: file_status.stat.exists
       
      
     
