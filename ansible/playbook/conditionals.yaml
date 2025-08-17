@@ -1,7 +1,7 @@
 ---
 - name: learningconditionals
   hosts: all
-  become: sudo
+  become: yes
   tasks: 
    - name: work on debian
      ansible.builtin.debug:
@@ -11,11 +11,17 @@
      ansible.builtin.debug:
       msg: "if version is above 22"
      when: 
-      - ansible_facts["distribution"] == "Ubuntu"
-      - ansible_facts["distribution_version"] | int > 22
+       - ansible_facts["distribution"] == "Ubuntu"
+       - ansible_facts["distribution_version"] | int > 22
    - name: file contents storage
-     ansible.builtin.stat module:
+     ansible.builtin.stat:
       path: /home/devops/test.txt
      register: file_status
+   - name: file exits 
+     ansible.builtin.stat:
+      msg: file is exits
+      path: /home/devops/test.txt
+     register: file_status
+     when: file_status.stat.exits
      
     
