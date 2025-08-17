@@ -6,14 +6,16 @@
    - name: work on debian
      ansible.builtin.debug:
       msg: "This is a debian distribution"
-     when: ansible_facts["os_family"] == debian
-   - name: work on red_hat 
-     ansible.builtin.debug:
-      msg: "This is a red_hat distribution"
-     when: ansible_facts["os_family"] == red_hat
-   - name: see Version of ubuntu
+     when: ansible_facts["os_family"] == "Debian"
+   - name: work on specified version
      ansible.builtin.debug:
       msg: "if version is above 22"
-     when: ansible_facts["distribution"] == Ubuntu
-     when: ansible_facts["distribution_version"] | int <= 22
+     when: 
+      - ansible_facts["distribution"] == "Ubuntu"
+      - ansible_facts["distribution_version"] | int > 22
+   - name: file contents storage
+     ansible.builtin.stat module:
+      path: /home/devops/test.txt
+     register: file_status
+     
     
